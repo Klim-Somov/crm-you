@@ -82,8 +82,15 @@
 </template>
 <script>
 import {email, required, minLength} from 'vuelidate/lib/validators'
+// import { ref } from 'vue'
+// import { useStore } from 'vuex'
+// const login_form = ref({});
+// const register_form = ref({});
+// const store = useStore();
+
 export default {
-  name: "Register-vue",
+ 
+ name: "Register-vue",
   validations: {
     email: {email, required, },
     password: { required, minLength: minLength(8) },
@@ -100,8 +107,8 @@ export default {
     };
   },
  
-  methods: {
-    onSubmit() {
+   methods: {
+  async  onSubmit() {
     if (this.$v.$invalid) {
       this.$v.$touch()
       return
@@ -111,10 +118,10 @@ export default {
         password: this.password,
         name: this.name,
       }
-
-      console.log(formData);
-
+    try {
+       await this.$store.dispatch('register', formData);
       this.$router.push("/");
+      } catch (e) {}
     },
   },
 };

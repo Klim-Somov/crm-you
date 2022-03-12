@@ -54,3 +54,19 @@
 
         </div>
 </template>
+
+<script>
+export default {
+
+async mounted() {
+  await this.$store.dispatch('getUserid')
+}
+
+}
+
+
+</script>
+
+<style>
+
+</style>
