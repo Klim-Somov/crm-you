@@ -121,7 +121,7 @@ export default {
     try {
        await this.$store.dispatch('register', formData);
       this.$router.push("/");
-      } catch (e) {}
+      } catch (e) {console.error("drt");}
     },
   },
 };

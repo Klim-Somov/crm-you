@@ -8,7 +8,8 @@ import {
    signInWithEmailAndPassword,
    signOut
 } from 'firebase/auth'
-import { getDatabase, ref, set  } from 'firebase/database'
+import { ref,  set } from 'firebase/database'
+// import { getDatabase, ref, set  } from 'firebase/database'
 
 
 Vue.use(Vuex)
@@ -22,6 +23,7 @@ export default new Vuex.Store({
    actions: {
       async login({ commit }, user) { 
          const { email, password } = user
+         
          try {
             await signInWithEmailAndPassword(auth, email, password)
          } catch (error) {
@@ -48,11 +50,16 @@ export default new Vuex.Store({
          try {
             await createUserWithEmailAndPassword(auth, email, password)
             const uid = await dispatch('getUserid')
-            const db = getDatabase
-            await db.ref(`/users/${uid}/info`).set({
+            await set(ref(database, `/users/${uid}/info` ), {
                bill: 10000,
                name: name
             })
+            
+            // await database.Reference(`/users/${uid}/info`).set({
+            //    bill: 10000,
+            //    name: name
+            // }           
+            // )
          } catch (error) {
             switch(error.code) {
               case 'auth/email-already-in-use':

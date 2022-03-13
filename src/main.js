@@ -15,6 +15,7 @@ Vue.use(Vuelidate)
 Vue.filter('date', dateFilter)
 
 
+
 new Vue({
   router,
   store,
