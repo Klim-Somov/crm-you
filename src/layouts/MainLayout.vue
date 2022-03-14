@@ -1,21 +1,18 @@
 <template>
   <div>
     <div class="app-main-layout">
-      
       <Navbar @sideBarToggle="isOpen = !isOpen" />
 
-      <Sidebar v-model="isOpen"/>
-      
+      <Sidebar v-model="isOpen" />
+
       <!-- Добавляю класс full если состояние isOpen = false -->
-      <main class="app-content" :class="{full: !isOpen}">
+      <main class="app-content" :class="{ full: !isOpen }">
         <div class="app-page">
           <router-view />
         </div>
       </main>
-
       <div class="fixed-action-btn">
-        <a 
-        class="btn-floating btn-large blue" href="/new-record">
+        <a class="btn-floating btn-large blue" href="/new-record">
           <i class="large material-icons">add</i>
         </a>
       </div>
@@ -34,5 +31,11 @@ export default {
   },
   name: "MainLayout",
   components: { Navbar, Sidebar },
+  async mounted() {
+    if (!Object.keys(this.$store.getters.info).length) {
+      
+      await this.$store.dispatch("fetchInfo");
+    }
+  },
 };
 </script>

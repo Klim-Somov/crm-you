@@ -2,25 +2,50 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+
 import { auth, database } from '../firebase'
 import {
    createUserWithEmailAndPassword,
    signInWithEmailAndPassword,
    signOut
 } from 'firebase/auth'
-import { ref,  set } from 'firebase/database'
-// import { getDatabase, ref, set  } from 'firebase/database'
-
+import { ref,  set, onValue} from 'firebase/database'
 
 Vue.use(Vuex)
 export default new Vuex.Store({
    state: {
-      user: null
+      user: null,
+      error: null,
+      info: {}
    },
+   getters: {
+      info: s => s.info
+  },
    mutations: {
+      setInfo(state, info) {
+         state.info = info
+       },
+       clearInfo(state) {
+           state.info = {}
+       } ,
+       STATE_ERROR(state, error) {
+         state.error = error
+      },
  
    },
    actions: {
+      async fetchInfo({dispatch, commit}) {
+         try { const uid = await dispatch('getUserid')
+           const userInfo =   ref(database, `/users/${uid}/info` );   
+             
+             onValue(userInfo, (snapshot) => {
+                 const info = snapshot.val();
+                    commit('setInfo', info)
+               }); 
+                     
+         } catch (e) {  console.log('hi'); 
+      }   
+  },
       async login({ commit }, user) { 
          const { email, password } = user
          
@@ -40,11 +65,10 @@ export default new Vuex.Store({
             throw error
          }
       },
-      async logout({
-         commit
-      }) {
-
+      async logout({ commit }) {
          await signOut(auth)
+          commit('clearInfo')
+
       },
       async register ({ dispatch }, { email, password, name }) {
          try {
@@ -54,12 +78,6 @@ export default new Vuex.Store({
                bill: 10000,
                name: name
             })
-            
-            // await database.Reference(`/users/${uid}/info`).set({
-            //    bill: 10000,
-            //    name: name
-            // }           
-            // )
          } catch (error) {
             switch(error.code) {
               case 'auth/email-already-in-use':
@@ -80,10 +98,10 @@ export default new Vuex.Store({
             throw error
          }        
       },
-
       getUserid() { 
          const user = auth.currentUser;          
          return user ? user.uid : null 
       }
-   }
+   },
+  
 })

@@ -8,7 +8,6 @@
         <!-- приминяю фильтр 'date' зарегестрированный в main.js -->
         <span class="black-text">{{ date | date('time')}} {{ date | date('date')}}  </span>
       </div>
-
       <ul class="right hide-on-small-and-down">
         <li>
           <a
@@ -16,11 +15,9 @@
             href="#"
             data-target="dropdown"
             ref="dropdown"
-          >
-            USER NAME
+          > USER NAME
             <i class="material-icons right">arrow_drop_down</i>
           </a>
-
           <ul id="dropdown" class="dropdown-content">
             <li>
               <a href="/profile" class="black-text">
@@ -41,7 +38,6 @@
 </template>
 <script>
 import M from "materialize-css/dist/js/materialize.min";
-
 export default {
   data() {
     return {

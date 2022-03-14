@@ -82,11 +82,6 @@
 </template>
 <script>
 import {email, required, minLength} from 'vuelidate/lib/validators'
-// import { ref } from 'vue'
-// import { useStore } from 'vuex'
-// const login_form = ref({});
-// const register_form = ref({});
-// const store = useStore();
 
 export default {
  
