@@ -15,7 +15,8 @@
             href="#"
             data-target="dropdown"
             ref="dropdown"
-          > USER NAME
+          > 
+          {{name}}
             <i class="material-icons right">arrow_drop_down</i>
           </a>
           <ul id="dropdown" class="dropdown-content">
@@ -53,9 +54,14 @@ export default {
     },
   },
   computed: {
-   
+   name() {
+     if (this.$store.getters.info != null)
+     return this.$store.getters.info.name
+     else return "User"
+     }
   },
-  mounted() {
+   mounted() {
+    
     this.interval = setInterval(() => {
       this.date = new Date();
     }, 1000);

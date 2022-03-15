@@ -34,10 +34,15 @@ export default new Vuex.Store({
  
    },
    actions: {
+      async fetchCurrency() {
+         // получаем ключ из файла .env
+         const key = process.env.VUE_APP_FIXER
+         const res = fetch(`http://data.fixer.io/api/latest?access_key=${key}&symbols=USD,EUR,RUB`)
+         return await (await res).json()
+      },
       async fetchInfo({dispatch, commit}) {
          try { const uid = await dispatch('getUserid')
-           const userInfo =   ref(database, `/users/${uid}/info` );   
-             
+           const userInfo =  ref(database, `/users/${uid}/info`);   
              onValue(userInfo, (snapshot) => {
                  const info = snapshot.val();
                     commit('setInfo', info)
@@ -67,7 +72,7 @@ export default new Vuex.Store({
       },
       async logout({ commit }) {
          await signOut(auth)
-          commit('clearInfo')
+         commit('clearInfo')
 
       },
       async register ({ dispatch }, { email, password, name }) {
