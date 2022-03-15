@@ -5,38 +5,43 @@
         <h4>Создать</h4>
       </div>
 
-      <form @submit.prevent="createCategory"
-      
-      >
+      <form @submit.prevent="createCategory">
         <div class="input-field">
           <input
-          v-model="title"
-           id="name"
-           type="text"
-           :class="{invalid: $v.title.$dirty && !$v.title.required}"/>
-            
+            v-model="title"
+            id="name"
+            type="text"
+            :class="{ invalid: $v.title.$dirty && !$v.title.required }"
+          />
+
           <label for="name">Название</label>
-          <span 
-          v-if="$v.title.$dirty && !$v.title.required"
-          class="helper-text invalid">Введите название категории</span>
+          <span
+            v-if="$v.title.$dirty && !$v.title.required"
+            class="helper-text invalid"
+            >Введите название категории</span
+          >
         </div>
 
         <div class="input-field">
           <input
             id="limit"
             type="number"
-            v-model="limit" 
-            :class="{invalid: $v.limit.$dirty && !$v.limit.minValue}"/>
+            v-model.number="limit"
+            :class="{ invalid: $v.limit.$dirty && !$v.limit.minValue }"
+          />
           <label for="limit">Лимит</label>
           <span
-          v-if="$v.limit.$dirty && !$v.limit.minValue" 
-          class="helper-text invalid"
+            v-if="$v.limit.$dirty && !$v.limit.minValue"
+            class="helper-text invalid"
           >
-          Минимальное заначение{{$v.limit.$params.minValue.min}}
+            Минимальное заначение{{ $v.limit.$params.minValue.min }}
           </span>
         </div>
 
-        <button class="btn waves-effect waves-light" type="submit">
+        <button
+
+        class="btn waves-effect waves-light" 
+        type="submit">
           Создать
           <i class="material-icons right">send</i>
         </button>
@@ -46,7 +51,7 @@
 </template>
 
 <script>
-import { required,  minValue } from "vuelidate/lib/validators";
+import { required, minValue } from "vuelidate/lib/validators";
 import M from "materialize-css/dist/js/materialize.min";
 export default {
   data() {
@@ -56,22 +61,31 @@ export default {
     };
   },
   validations: {
-      title: {required},
-      limit: {minValue: minValue(100)}
+    title: { required },
+    limit: { minValue: minValue(100) },
   },
-    mounted() {
-M.updateTextFields()
-    },
+  mounted() {
+    M.updateTextFields();
+  },
   methods: {
-      createCategory() {
-          if (this.$v.$invalid) {
-              this.$v.$touch()
-              return
-          }
+    async createCategory() {
+      if (this.$v.$invalid) {
+        this.$v.$touch();
+        return;
       }
-  } 
+
+      try {
+        const category = await this.$store.dispatch("createCategory", {
+          title: this.title,
+          limit: this.limit
+        });
+       console.log(category)
+      } catch (error) {
+        console.log("category")
+      }
+    }, 
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

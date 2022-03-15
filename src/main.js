@@ -23,9 +23,11 @@ Vue.component('Loader-vue.', Loader)
 
 
 const auth = getAuth()
+let app;
 
 onAuthStateChanged(auth, (user) => {
-  if (user) {
+  console.log(user)
+  if (!app) {
     new Vue({
       router,
       store,
@@ -34,3 +36,11 @@ onAuthStateChanged(auth, (user) => {
 
   }
 })
+// setTimeout(() => {
+//   new Vue({
+//   router,
+//   store,
+//   render: h => h(App)
+// }).$mount('#app')
+  
+// }, 3000);

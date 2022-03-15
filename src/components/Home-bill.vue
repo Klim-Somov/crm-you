@@ -5,12 +5,12 @@
       <div class="card-content white-text">
         <span class="card-title">Счет в валюте</span>
 
-        <p 
+        <!-- <p 
         v-for="cur of currency"
         :key="cur"
         class="currency-line">
           <span>{{getCurrency(cur) | currency(cur) }}</span>
-        </p>
+        </p> -->
       </div>
     </div>
   </div>

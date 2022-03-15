@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar blue lighten-3">
+  <nav class="navbar teal lighten-2">
     <div class="nav-wrapper">
       <div class="navbar-left">
         <a href="#" @click.prevent="$emit('sideBarToggle')">
