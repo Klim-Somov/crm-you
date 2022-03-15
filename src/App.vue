@@ -21,6 +21,11 @@ export default {
 };
 </script>
 <style lang="scss">
+
+#app {
+background: url('./img/cool-background (1).png') 0 0 ;}
+
+
 @import "~materialize-css/dist/css/materialize.min.css";
 @import "assets/index";
 </style>

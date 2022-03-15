@@ -1,7 +1,7 @@
 <template>
   <div class="app-page">
     <div>
-      <div class="page-title">
+      <div class="page-title title black-text">
         <h3>Счет</h3>
 
         <button class="btn waves-effect waves-light btn-small">
@@ -40,6 +40,6 @@ export default {
   components: { HomeBill, HomeCurrensy, Loader },
 };
 </script>
+<style  scoped>
 
-<style>
 </style>

@@ -3,20 +3,23 @@
     <div class="nav-wrapper">
       <div class="navbar-left">
         <a href="#" @click.prevent="$emit('sideBarToggle')">
-          <i class="material-icons black-text">dehaze</i>
+          <i class="material-icons  white-text">dehaze</i>
         </a>
         <!-- приминяю фильтр 'date' зарегестрированный в main.js -->
-        <span class="black-text">{{ date | date('time')}} {{ date | date('date')}}  </span>
+        <span class="user white-text">{{ date | date('time')}} {{ date | date('date')}}  </span>
       </div>
       <ul class="right hide-on-small-and-down">
         <li>
+          
           <a
-            class="dropdown-trigger black-text"
+          
+            class="dropdown-trigger white-text user "
             href="#"
             data-target="dropdown"
             ref="dropdown"
           > 
           {{name}}
+            <i class="material-icons left">person</i>
             <i class="material-icons right">arrow_drop_down</i>
           </a>
           <ul id="dropdown" class="dropdown-content">
@@ -75,3 +78,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+.user {
+ 
+  font-size: 23px;
+  font-weight: bold;
+}
+
+</style>

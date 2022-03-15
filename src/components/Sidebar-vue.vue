@@ -1,5 +1,5 @@
 <template>
-  <ul class="sidenav app-sidenav" :class="{open: value}">
+  <ul class="sidenav side app-sidenav" :class="{open: value}">
     <router-link
      v-for="link in sideBarLinks" 
      :key="link.title"
@@ -9,7 +9,7 @@
      class=""
      exact
      >
-      <a :href="link.url" class="waves-effect waves-orange pointer">{{link.title}}</a>
+      <a :href="link.url" class="white-text waves-effect waves-orange pointer">{{link.title}}</a>
     </router-link>
   
   </ul>
@@ -32,5 +32,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.sidenav {
+  background-color: rgb(194, 229, 199);
+  
+}
+.sidenav li>a{
+  font-size: 23px;
+}
 </style>
