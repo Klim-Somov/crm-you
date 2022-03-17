@@ -15,11 +15,11 @@
             </tr>
           </thead>
           <tbody>
-            <!-- <tr v-for="cur in currencyes" :key="cur">
+            <tr v-for="cur in currencyes" :key="cur">
               <td>{{ cur }}</td>
               <td>{{ rates[cur].toFixed(2) }}</td>
               <td>{{ date | date('date') }}</td>
-            </tr> -->
+            </tr>
           </tbody>
         </table>
       </div>

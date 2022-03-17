@@ -36,7 +36,9 @@ export default {
     this.currency = await this.$store.dispatch("fetchCurrency");
     this.loading = false;
     await this.$store.dispatch("getUserid");
+   
   },
+
   components: { HomeBill, HomeCurrensy, Loader },
 };
 </script>

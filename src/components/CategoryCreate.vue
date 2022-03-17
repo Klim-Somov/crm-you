@@ -38,10 +38,7 @@
           </span>
         </div>
 
-        <button
-
-        class="btn waves-effect waves-light" 
-        type="submit">
+        <button class="btn waves-effect waves-light" type="submit">
           Создать
           <i class="material-icons right">send</i>
         </button>
@@ -57,7 +54,7 @@ export default {
   data() {
     return {
       title: "",
-      limit: 1,
+      limit: 100,
     };
   },
   validations: {
@@ -77,13 +74,13 @@ export default {
       try {
         const category = await this.$store.dispatch("createCategory", {
           title: this.title,
-          limit: this.limit
+          limit: this.limit,
         });
-       console.log(category)
+        console.log(category);
       } catch (error) {
-        console.log("category")
+        console.log("category");
       }
-    }, 
+    },
   },
 };
 </script>

@@ -36,7 +36,8 @@ export default new Vuex.Store({
       try {
         const uid = await dispatch("getUserid");
         const category = await set(ref(database, `/users/${uid}/categories`), { title, limit });
-        return {title, limit, id: category.key} 
+        
+         return await console.log( {title, limit}) 
         
       } catch (error) {
         commit("setError", e);
@@ -48,6 +49,7 @@ export default new Vuex.Store({
       const key = process.env.VUE_APP_FIXER;
       const res = fetch(
         `http://data.fixer.io/api/latest?access_key=${key}&symbols=USD,EUR,RUB`
+        
       );
       return await (await res).json();
     },
