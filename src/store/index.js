@@ -8,7 +8,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { ref, set, onValue } from "firebase/database";
+import { ref, set, onValue, push } from "firebase/database";
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -35,9 +35,10 @@ export default new Vuex.Store({
     async createCategory({ commit, dispatch }, { title, limit }) {
       try {
         const uid = await dispatch("getUserid");
-        const category = await set(ref(database, `/users/${uid}/categories`), { title, limit });
+        let data = { title, limit}
+        await push(ref(database, `/users/${uid}/categories`), {...data} );
         
-         return await console.log( {title, limit}) 
+         return await console.log( { title, limit}) 
         
       } catch (error) {
         commit("setError", e);
