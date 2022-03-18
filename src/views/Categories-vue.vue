@@ -5,7 +5,7 @@
     </div>
     <section>
       <div class="row">
-        <CategoryCreate />
+        <CategoryCreate @created="addNewCategory" />
 
         <CategoryEdit />
       </div>
@@ -14,13 +14,21 @@
 </template>
 
 <script>
-import CategoryCreate from '@/components/CategoryCreate'
-import CategoryEdit from '@/components/CategoryEdit'
+import CategoryCreate from "@/components/CategoryCreate";
+import CategoryEdit from "@/components/CategoryEdit";
 export default {
   name: "Categoryes-vue",
-  components: {CategoryCreate, CategoryEdit}
-
-
-}
+  components: { CategoryCreate, CategoryEdit },
+  data() {
+    return {
+      categories: [],
+    };
+  },
+  methods: {
+    addNewCategory(category) {
+      this.categories.push(category);
+      console.log(this.categories)
+    },
+  },
+};
 </script>
-
