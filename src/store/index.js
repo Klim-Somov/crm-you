@@ -35,10 +35,10 @@ export default new Vuex.Store({
     async createCategory({ commit, dispatch }, { title, limit }) {
       try {
         const uid = await dispatch("getUserid");
-        let data = { title, limit}
-        await push(ref(database, `/users/${uid}/categories`), {...data} );
+       
+        const category = await push(ref(database, `/users/${uid}/categories`), { title, limit} );
         
-         return await console.log( { title, limit}) 
+         return {title, limit, id: category.key}
         
       } catch (error) {
         commit("setError", e);
