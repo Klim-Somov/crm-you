@@ -8,7 +8,7 @@
       <div v-else class="row">
         <CategoryCreate @created="addNewCategory" />
 
-        <CategoryEdit />
+        <CategoryEdit :categories="categories" />
       </div>
     </section>
   </div>
