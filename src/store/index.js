@@ -2,13 +2,24 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import { auth, database } from "../firebase";
+import {
+  auth,
+  database
+} from "../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { ref, set, onValue, push } from "firebase/database";
+import {
+  ref,
+  set,
+  onValue,
+  push,
+  get,
+  child,
+  getDatabase
+} from "firebase/database";
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -16,13 +27,18 @@ export default new Vuex.Store({
     user: null,
     error: null,
     info: {},
+    categories: [],
   },
   getters: {
     info: (s) => s.info,
+    categories: (s) => s.categories,
   },
   mutations: {
     setInfo(state, info) {
       state.info = info;
+    },
+    setCats(state, snap) {
+      state.categories = snap
     },
     clearInfo(state) {
       state.info = {};
@@ -32,14 +48,50 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async createCategory({ commit, dispatch }, { title, limit }) {
+
+
+    async fetchCategories({
+      dispatch,
+      commit
+    }) {
+      const uid = await dispatch("getUserid");
+      const dbRef = ref(database)
+      await get(child(dbRef, `/users/${uid}/categories`)).then((snapshot) => {
+        const cats = snapshot.val()
+        const snap = Object.keys(cats).map((key) => ({...cats[key], id:key }))   
+        commit('setCats', snap)
+      })
+      // const categories = await ref(database, `/users/${uid}/categories`)
+      // return categories  
+      // return    
+
+
+    },
+
+
+
+
+    async createCategory({
+      commit,
+      dispatch
+    }, {
+      title,
+      limit
+    }) {
       try {
         const uid = await dispatch("getUserid");
-       
-        const category = await push(ref(database, `/users/${uid}/categories`), { title, limit} );
-        
-         return {title, limit, id: category.key}
-        
+
+        const category = await push(ref(database, `/users/${uid}/categories`), {
+          title,
+          limit
+        });
+
+        return {
+          title,
+          limit,
+          id: category.key
+        }
+
       } catch (error) {
         commit("setError", e);
         throw e;
@@ -50,11 +102,14 @@ export default new Vuex.Store({
       const key = process.env.VUE_APP_FIXER;
       const res = fetch(
         `http://data.fixer.io/api/latest?access_key=${key}&symbols=USD,EUR,RUB`
-        
+
       );
       return await (await res).json();
     },
-    async fetchInfo({ dispatch, commit }) {
+    async fetchInfo({
+      dispatch,
+      commit
+    }) {
       try {
         const uid = await dispatch("getUserid");
         const userInfo = ref(database, `/users/${uid}/info`);
@@ -66,8 +121,13 @@ export default new Vuex.Store({
         console.log("hi");
       }
     },
-    async login({ commit }, user) {
-      const { email, password } = user;
+    async login({
+      commit
+    }, user) {
+      const {
+        email,
+        password
+      } = user;
 
       try {
         await signInWithEmailAndPassword(auth, email, password);
@@ -85,11 +145,19 @@ export default new Vuex.Store({
         throw error;
       }
     },
-    async logout({ commit }) {
+    async logout({
+      commit
+    }) {
       await signOut(auth);
       commit("clearInfo");
     },
-    async register({ dispatch }, { email, password, name }) {
+    async register({
+      dispatch
+    }, {
+      email,
+      password,
+      name
+    }) {
       try {
         await createUserWithEmailAndPassword(auth, email, password);
         const uid = await dispatch("getUserid");

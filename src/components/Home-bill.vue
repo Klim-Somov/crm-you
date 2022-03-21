@@ -41,6 +41,7 @@ export default {
     }
   },
    mounted() {
+     
      setInterval(() => {
        this.loading = false  
      }, 1000);

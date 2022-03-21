@@ -83,7 +83,7 @@ export default {
         this.$message('Категория была создана')
         this.$emit('created', category)
 } catch (error) {
-       
+       console.log('hu')
       }
     },
   },
