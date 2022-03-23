@@ -81,21 +81,24 @@ export default {
     },
   },
   methods: {
-   async submitHendler() {
+    async submitHendler() {
       if (this.$v.$invalid) {
-        this.$v.$touch()
-        return
+        this.$v.$touch();
+        return;
       }
-try {
-  const categoryData = {
-    
-  }
-  await this.$stor.dispatch('updateCategory', categoryData)
-} catch (error) {
-  
-}
-    }
-    
+      try {
+        const categoryData = {
+          id: this.current,
+          title: this.title,
+          limit: this.limit,
+        };
+        await this.$store.dispatch("updateCategory", categoryData);
+        this.$message('Категория измненена')
+       
+      } catch (error) {
+        console.log('ty')
+      }
+    },
   },
   validations: {
     title: { required },

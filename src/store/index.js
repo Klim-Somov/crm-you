@@ -16,6 +16,7 @@ import {
   get,
   child,
   getDatabase,
+  update,
 } from "firebase/database";
 
 Vue.use(Vuex);
@@ -45,8 +46,17 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    async updateCategory({ dispatch, commit }, { title, limit, id}) {
+      try {
+        const uid = await dispatch("getUserid");
+        await update(ref(database, `/users/${uid}/categories`), { title, limit, id});    
+      } catch (error) {
+        commit("setError", e);
+        throw e;
+      }
+    },
     async fetchCategories({ dispatch, commit }) {
-        const uid = await dispatch("getUserid")
+      const uid = await dispatch("getUserid");
       //   const cats =  ref(database, `/users/${uid}/categories`);
       //  return  onValue(cats, (snapshot) => {
       //   const snap =  Object.keys(snapshot.val()).map((key) => ({...snapshot.val()[key],id: key, }));
@@ -55,12 +65,13 @@ export default new Vuex.Store({
       const dbRef = ref(database);
       await get(child(dbRef, `/users/${uid}/categories`)).then((snapshot) => {
         const cats = snapshot.val();
-        const snap = Object.keys(cats).map((key) => ({...cats[key],id: key, }));
+        const snap = Object.keys(cats).map((key) => ({
+          ...cats[key],
+          id: key,
+        }));
         commit("setCats", snap);
       });
-     
     },
-
     async createCategory({ commit, dispatch }, { title, limit }) {
       try {
         const uid = await dispatch("getUserid");
