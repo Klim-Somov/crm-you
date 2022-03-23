@@ -5,19 +5,17 @@
         <h4>Редактировать</h4>
       </div>
 
-      <form>
+      <form @submit.prevent="submitHendler">
         <div class="input-field">
-          <select ref="select">
-            <option
-            v-for="c in categories"
-            :key="c.id"
-            :value="c.id"
-            >{{c.title}}</option>
+          <select ref="select" v-model="current">
+            <option v-for="c in categories" :key="c.id" :value="c.id">
+              {{ c.title }}
+            </option>
           </select>
           <label>Выберите категорию</label>
         </div>
 
-         <div class="input-field">
+        <div class="input-field">
           <input
             v-model="title"
             id="name"
@@ -33,7 +31,7 @@
           >
         </div>
 
-       <div class="input-field">
+        <div class="input-field">
           <input
             id="limit"
             type="number"
@@ -64,29 +62,60 @@ export default {
   props: {
     categories: {
       type: Array,
-      require: true
-    }
+      require: true,
+    },
   },
   data() {
     return {
-       title: "",
+      title: "",
       limit: 100,
-      select: null
+      select: null,
+      current: null,
     };
   },
-    validations: {
+  watch: {
+    current(catId) {
+      const { title, limit } = this.categories.find((c) => c.id === catId);
+      this.title = title;
+      this.limit = limit;
+    },
+  },
+  methods: {
+   async submitHendler() {
+      if (this.$v.$invalid) {
+        this.$v.$touch()
+        return
+      }
+try {
+  const categoryData = {
+    
+  }
+  await this.$stor.dispatch('updateCategory', categoryData)
+} catch (error) {
+  
+}
+    }
+    
+  },
+  validations: {
     title: { required },
     limit: { minValue: minValue(100) },
   },
+  created() {
+    const { id, title, limit } = this.categories[0];
+    this.current = id;
+    this.title = title;
+    this.limit = limit;
+  },
   mounted() {
     this.select = M.FormSelect.init(this.$refs.select);
-      M.updateTextFields();
+    M.updateTextFields();
   },
   destroyed() {
-    if (this.select && this.select.destroy ) {
-      this.select.destroy()
+    if (this.select && this.select.destroy) {
+      this.select.destroy();
     }
-  }
+  },
 };
 </script>
 
