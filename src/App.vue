@@ -23,7 +23,9 @@ export default {
 <style lang="scss">
 
 #app {
-background: url('./img/cool-background (1).png') 0 0 ;}
+
+background: url('./img/cool-background (1).png') 0 0 ;
+color: rgb(0, 0, 0);}
 
 
 @import "~materialize-css/dist/css/materialize.min.css";

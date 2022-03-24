@@ -5,7 +5,7 @@
         <h4>Редактировать</h4>
       </div>
 
-      <form @submit.prevent="submitHendler">
+      <form @submit="submitHendler">
         <div class="input-field">
           <select ref="select" v-model="current">
             <option v-for="c in categories" :key="c.id" :value="c.id">

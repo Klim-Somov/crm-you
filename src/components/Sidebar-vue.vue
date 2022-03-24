@@ -34,7 +34,7 @@ export default {
 
 <style scoped>
 .sidenav {
-  background-color: rgb(194, 229, 199);
+  background-color: #006064   ;
   
 }
 .sidenav li>a{
