@@ -1,5 +1,6 @@
 <template>
   <div class="app-page">
+    
     <div>
       <div class="page-title title black-text">
         <h3>Счет</h3>
@@ -19,6 +20,7 @@
 </template>
 
 <script>
+
 import HomeCurrensy from "@/components/Home-currensy";
 import HomeBill from "@/components/Home-bill.vue";
 import Loader from "@/components/Loader-vue.vue";
@@ -33,6 +35,7 @@ export default {
     };
   },
   async mounted() {
+
     this.currency = await this.$store.dispatch("fetchCurrency");
     this.loading = false;
     await this.$store.dispatch("getUserid");

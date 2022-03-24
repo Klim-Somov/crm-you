@@ -12,6 +12,8 @@
     "core-js": "^3.8.3",
     "firebase": "^9.6.8",
     "materialize-css": "^1.0.0-rc.2",
+    "particles.vue": "^2.42.4",
+    "particlesjs": "^2.2.3",
     "register-service-worker": "^1.7.2",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",

@@ -51,7 +51,7 @@ export default new Vuex.Store({
     async updateCategory({ dispatch, commit }, { title, limit, id}) {
       try {
         const uid = await dispatch("getUserid");
-        await update(ref(database, `/users/${uid}/categories/${id}`), { title, limit, id});    
+        await update(ref(database, `/users/${uid}/categories/${id}`), { title, limit});    
       } catch (error) {
         commit("setError", e);
         throw e;

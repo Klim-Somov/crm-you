@@ -11,11 +11,12 @@
      >
       <a :href="link.url" class="white-text waves-effect waves-orange pointer">{{link.title}}</a>
     </router-link>
-  
+
   </ul>
 </template>
 
 <script>
+
 export default {
   props: ['value'],
   data() {

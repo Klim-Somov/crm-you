@@ -10,11 +10,13 @@ import Loader from '@/components/Loader-vue'
 import './registerServiceWorker'
 import "materialize-css/dist/js/materialize.min"
 import { onAuthStateChanged, getAuth } from 'firebase/auth'
+import Particles from "particles.vue";
+
 
 
 
 Vue.config.productionTip = false
-
+Vue.use(Particles);
 Vue.use(messagePlugin)
 Vue.use(Vuelidate)
 Vue.filter('date', dateFilter)
