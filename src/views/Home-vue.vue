@@ -2,8 +2,8 @@
   <div class="app-page">
     
     <div>
-      <div class="page-title title black-text">
-        <h3>Счет</h3>
+      <div class="page-title title white-text">
+        <h3 >Счет</h3>
 
         <button class="btn waves-effect waves-light btn-small">
           <i class="material-icons">refresh</i>
@@ -35,6 +35,7 @@ export default {
     };
   },
   async mounted() {
+    
 
     this.currency = await this.$store.dispatch("fetchCurrency");
     this.loading = false;
