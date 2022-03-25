@@ -1,5 +1,5 @@
 ,<template>
-    <form @submit.prevent="onSubmit" class="card auth-card">
+    <form @submit.prevent="onSubmit" class="transparent card auth-card">
   <div class="card-content">
     <span class="card-title">Домашняя бухгалтерия</span>
    <div class="input-field">
@@ -121,3 +121,6 @@ export default {
   },
 };
 </script>
+<style scoped>
+
+</style>

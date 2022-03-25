@@ -63,6 +63,14 @@ export default {
      else return "User"
      }
   },
+  created() {
+setTimeout(() => {
+  if ((this.name === undefined) || (this.name ==='User') ) {
+      this.$router.push('/login')
+    }
+}, 3000);
+    
+  },
    mounted() {
     
     this.interval = setInterval(() => {

@@ -46,12 +46,14 @@ export default new Vuex.Store({
     },
   },
 
- 
   actions: {
-    async updateCategory({ dispatch, commit }, { title, limit, id}) {
+    async updateCategory({ dispatch, commit }, { title, limit, id }) {
       try {
         const uid = await dispatch("getUserid");
-        await update(ref(database, `/users/${uid}/categories/${id}`), { title, limit});    
+        await update(ref(database, `/users/${uid}/categories/${id}`), {
+          title,
+          limit,
+        });
       } catch (error) {
         commit("setError", e);
         throw e;
@@ -65,14 +67,19 @@ export default new Vuex.Store({
       //   commit("setCats", snap);
       // });
       const dbRef = ref(database);
-      await get(child(dbRef, `/users/${uid}/categories`)).then((snapshot) => {
-        const cats = snapshot.val();
-        const snap = Object.keys(cats).map((key) => ({
-          ...cats[key],
-          id: key,
-        }));
-        commit("setCats", snap);
-      });
+      try {
+         await get(child(dbRef, `/users/${uid}/categories`))
+         .then((snapshot) => {
+          const cats = snapshot.val();
+          const snap = Object.keys(cats).map((key) => ({
+            ...cats[key],
+            id: key,
+          }));
+          commit("setCats", snap);
+        });
+      } catch (error) {
+        console.log("error");
+      }
     },
     async createCategory({ commit, dispatch }, { title, limit }) {
       try {

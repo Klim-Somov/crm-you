@@ -1,4 +1,5 @@
 <template>
+
   <div class="" id="app">
        <Particles
                 id="tsparticles"
@@ -81,7 +82,7 @@
                     detectRetina: true
                 }"
         />
-
+<!-- динамически создаем компонент спомощью "<component /> c помощью ":is" передается строка. которая в будущем формерует нужный нам компонент-->
     <component :is="layout"><router-view /></component>
   </div>
 </template>
@@ -96,9 +97,10 @@ export default {
   },
   computed: {
     layout() {
-      
       return (this.$route.meta.layout || 'empty') + '-layout'
     },
+    
+    
   },
  
 };
@@ -106,6 +108,7 @@ export default {
 <style lang="scss">
 
 #app {
+  
 input {
     color: white
 }

@@ -12,7 +12,7 @@
         </div>
       </main>
       <div class="fixed-action-btn">
-        <a class="btn-floating btn-large blue" href="/new-record">
+        <a class="btn-floating btn-large teal darken-1" href="/new-record">
           <i class="large material-icons">add</i>
         </a>
       </div>
