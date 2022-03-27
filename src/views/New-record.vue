@@ -5,69 +5,78 @@
         <h3>Новая запись</h3>
       </div>
       <loader-vue v-if="loading" />
-      <p v-else-if="!categories.length" class="center">категорий пока нет.  
+      <p v-else-if="!categories.length" class="center">
+        категорий пока нет.
         <router-link to="/categories">добавить</router-link>
-        </p> 
+      </p>
       <form @submit.prevent="submitHendler" v-else class="form">
         <div class="input-field">
-          <select 
-          v-model="category"
-           ref="select" >
-            <option
-            v-for="c in categories"
-            :key="c.id"
-            :value="c.id"
-            >{{c.title}}</option>
+          <select v-model="category" ref="select">
+            <option v-for="c in categories" :key="c.id" :value="c.id">
+              {{ c.title }}
+            </option>
           </select>
           <label>Выберите категорию</label>
         </div>
 
         <p>
           <label>
-            <input class="with-gap" v-model="type" name="type" type="radio" value="income" />
+            <input
+              class="with-gap"
+              v-model="type"
+              name="type"
+              type="radio"
+              value="income"
+            />
             <span>Доход</span>
           </label>
         </p>
 
         <p>
           <label>
-            <input class="with-gap" v-model="type" name="type" type="radio" value="outcome" />
+            <input
+              class="with-gap"
+              v-model="type"
+              name="type"
+              type="radio"
+              value="outcome"
+            />
             <span>Расход</span>
           </label>
         </p>
 
         <div class="input-field">
-          <input 
-           id="amount" 
-           type="number"  
-           v-model.number="amount" 
-           :class="{invalid: $v.amount.$dirty && !$v.amount.minValue}"
-         
-          >
+          <input
+            id="amount"
+            type="number"
+            v-model.number="amount"
+            :class="{ invalid: $v.amount.$dirty && !$v.amount.minValue }"
+          />
           <label for="amount">Сумма</label>
-         
 
-           <span
+          <span
             v-if="$v.amount.$dirty && !$v.amount.minValue"
             class="helper-text invalid"
           >
-                        Минимальное заначение{{ $v.amount.$params.minValue.min }}
-
+            Минимальное заначение{{ $v.amount.$params.minValue.min }}
           </span>
-
         </div>
 
         <div class="input-field">
-          <input 
-           :class="{invalid: $v.description.$dirty && !$v.description.required}"
-          v-model="description" 
-          id="description" 
-          type="text" />
+          <input
+            :class="{
+              invalid: $v.description.$dirty && !$v.description.required,
+            }"
+            v-model="description"
+            id="description"
+            type="text"
+          />
           <label for="description">Описание</label>
           <span
             v-if="$v.description.$dirty && !$v.description.required"
             class="helper-text invalid"
-            >Введите описание</span>
+            >Введите описание</span
+          >
         </div>
 
         <button class="btn waves-effect waves-light" type="submit">
@@ -82,7 +91,7 @@
 <script>
 import { required, minValue } from "vuelidate/lib/validators";
 import M from "materialize-css/dist/js/materialize.min";
-import {mapGetters} from 'vuex'
+import { mapGetters } from "vuex";
 export default {
   name: "record-vue",
   data() {
@@ -91,70 +100,71 @@ export default {
       loading: false,
       categories: [],
       category: null,
-      type: 'outcome',
+      type: "outcome",
       amount: 100,
       description: "",
     };
   },
   computed: {
-    ...mapGetters(['info']),
+    ...mapGetters(["info"]),
     canCreateRecord() {
-      if (this.type === 'income') {
-        return true
+      if (this.type === "income") {
+        return true;
       }
-        return this.info.bill >=this.amount
-      
-
+      return this.info.bill >= this.amount;
     },
   },
-    methods: {
+  methods: {
     async submitHendler() {
       if (this.$v.$invalid) {
         this.$v.$touch();
         return;
       }
-
       if (this.canCreateRecord) {
-        console.log("ok")
+        try {
+          await this.$store.dispatch("createRecord", {
+            categoryId: this.category,
+            amount: this.amount,
+            description: this.description,
+            type: this.type,
+          });
+          // После добавления записи в Firebase обновлю состояние счета
+          // Создам переменную и в нее сложу состояние счета после добавления записи
+          //(счет уменьшится или увеличится)
+          const bill =
+            this.type === "income"
+              ? this.info.bill + this.amount
+              : this.info.bill - this.amount;
+          // и после задиспатчу его в БД
+          await this.$store.dispatch("updateInfo", { bill });
+          this.$message("Счет обновлен. Запись создана");
+          this.description = "";
+          this.amount = 1;
+        } catch (error) {
+          console.log(error);
+        }
       } else {
-        this.$message('Недостатолчно соедств на счете')
-      }
-
-      // try {
-      //   const categoryData = {
-      //     id: this.current,
-      //     title: this.title,
-      //     limit: this.limit,
-      //   };
-      //   await this.$store.dispatch("updateCategory", categoryData);
-      //   this.$message('Категория измненена')
-       
-      // } catch (error) {
-        //   console.log('ty')
-        // } 
-        this.description = ''
-        this.amount = 100
+        this.$message("Недостатолчно соедств на счете");
       }
     },
-   validations: {
-    amount:{ minValue: minValue(100) },
-    description:  { required },
   },
- 
+  validations: {
+    amount: { minValue: minValue(100) },
+    description: { required },
+  },
+
   async mounted() {
-     await this.$store.dispatch("fetchCategories");
+    await this.$store.dispatch("fetchCategories");
     this.categories = this.$store.getters.categories;
     this.loader = false;
-   
+
     if (this.categories.length) {
-    this.category = this.categories[0].id
+      this.category = this.categories[0].id;
     }
     setTimeout(() => {
       this.select = M.FormSelect.init(this.$refs.select);
       M.updateTextFields();
     }, 0);
-    
-    
   },
 };
 </script>

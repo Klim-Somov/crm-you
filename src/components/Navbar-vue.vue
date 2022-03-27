@@ -28,7 +28,7 @@
                 <i class="material-icons">account_circle</i>Профиль
               </a>
             </li>
-            <li class="divider" tabindex="-1"></li>
+            <li class="divider" ></li>
             <li>
               <a href="/login" class="black-text" @click.prevent="logOut">
                 <i class="material-icons">assignment_return</i>Выйти

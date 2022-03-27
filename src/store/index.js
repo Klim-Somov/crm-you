@@ -46,6 +46,25 @@ export default new Vuex.Store({
   },
 
   actions: {
+    async updateInfo({dispatch, commit, getters}, {toUpdate}) {
+      try {
+        const uid = await dispatch("getUserid");
+        const updateData = {...getters.info, ...toUpdate};
+        await update(ref(database, `/users/${uid}/info`), { updateData });
+        commit('setInfo', updateData);
+      } catch (error) {
+        commit("setError", e);
+        throw e;
+      }
+    },
+    async createRecord({ dispatch, commit }, newRecord) {
+      try {
+        const uid = await dispatch("getUserid");
+       return await push(ref(database, `/users/${uid}/records`), { newRecord }); 
+      } catch (error) {
+        console.error(error)
+      }
+    },
     async updateCategory({ dispatch, commit }, { title, limit, id }) {
       try {
         const uid = await dispatch("getUserid");
@@ -83,7 +102,6 @@ export default new Vuex.Store({
     async createCategory({ commit, dispatch }, { title, limit }) {
       try {
         const uid = await dispatch("getUserid");
-
         const category = await push(ref(database, `/users/${uid}/categories`), {
           title,
           limit,
