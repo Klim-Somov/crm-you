@@ -1,10 +1,9 @@
 <template>
-  <div class="col s12 m6 ">
+  <div class="col s12 m6">
     <div>
       <div class="page-subtitle">
         <h4>Создать</h4>
       </div>
-
       <form @submit.prevent="createCategory">
         <div class="input-field">
           <input
@@ -76,14 +75,14 @@ export default {
           title: this.title,
           limit: this.limit,
         });
-  
-        this.title = ''
-        this.limit = 100
-        this.$v.$reset()
-        this.$message('Категория была создана')
-        this.$emit('created', category)
-} catch (error) {
-       console.log('hu')
+
+        this.title = "";
+        this.limit = 100;
+        this.$v.$reset();
+        this.$message("Категория была создана");
+        this.$emit("created", category);
+      } catch (error) {
+        console.log("hu");
       }
     },
   },

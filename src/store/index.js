@@ -15,7 +15,6 @@ import {
   push,
   get,
   child,
-  getDatabase,
   update,
 } from "firebase/database";
 
