@@ -46,12 +46,12 @@ export default new Vuex.Store({
   },
 
   actions: {
-    async updateInfo({dispatch, commit, getters}, {toUpdate}) {
+    async updateInfo({dispatch, commit, getters}, bill) {
       try {
         const uid = await dispatch("getUserid");
-        const updateData = {...getters.info, ...toUpdate};
-        await update(ref(database, `/users/${uid}/info`), { updateData });
-        commit('setInfo', updateData);
+        // const updateData = {...getters.info, ...toUpdate};
+        await update(ref(database, `/users/${uid}/info`),  bill );
+        // commit('setInfo', updateData);
       } catch (error) {
         commit("setError", e);
         throw e;
