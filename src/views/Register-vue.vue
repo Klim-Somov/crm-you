@@ -122,5 +122,8 @@ export default {
 };
 </script>
 <style scoped>
+.auth-card {
+  width: 350px;
+}
 
 </style>

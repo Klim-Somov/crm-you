@@ -1,24 +1,26 @@
 <template>
-  <ul class="sidenav side app-sidenav" :class="{open: value}">
+  <ul class="sidenav side app-sidenav" :class="{ open: value }">
     <router-link
-     v-for="link in sideBarLinks" 
-     :key="link.title"
-     tag="li"
-     active-class="active" 
-     :to="link.url" 
-     class=""
-     exact
-     >
-      <a :href="link.url" class="white-text waves-effect waves-orange pointer">{{link.title}}</a>
+      v-for="link in sideBarLinks"
+      :key="link.title"
+      tag="li"
+      active-class="active"
+      :to="link.url"
+      class=""
+      exact
+    >
+      <a
+        :href="link.url"
+        class="white-text waves-effect waves-orange pointer"
+        >{{ link.title }}</a
+      >
     </router-link>
-
   </ul>
 </template>
 
 <script>
-
 export default {
-  props: ['value'],
+  props: ["value"],
   data() {
     return {
       sideBarLinks: [
@@ -36,13 +38,10 @@ export default {
 <style scoped>
 .sidenav {
   background-color: #006064;
-  
+
   opacity: 0.7;
-
-
-  
 }
-.sidenav li>a{
+.sidenav li > a {
   font-size: 23px;
 }
 </style>
