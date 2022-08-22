@@ -89,8 +89,8 @@ setTimeout(() => {
 <style scoped>
 .user {
  
-  font-size: 23px;
-  font-weight: bold;
+  font-size: 20px;
+ 
 }
 
 </style>

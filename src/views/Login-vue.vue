@@ -115,4 +115,7 @@ export default {
 </script>
 
 <style>
+.auth-card{
+  width: 350px;
+}
 </style>
