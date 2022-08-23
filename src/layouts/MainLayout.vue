@@ -32,11 +32,12 @@ export default {
   },
   name: "MainLayout",
   components: { Navbar, Sidebar },
+
   async mounted() {
     if (!Object.keys(this.$store.getters.info).length) {
       await this.$store.dispatch("fetchInfo");
     }
-    this.loading = true
+    // this.loading = true
   },
 };
 </script>

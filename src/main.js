@@ -27,8 +27,8 @@ Vue.component('Loader-vue.', Loader)
 let auth = getAuth()
 let app;
 
-onAuthStateChanged(auth, (user) => {
-  console.log(user)
+onAuthStateChanged(auth, () => {
+  // console.log(user)
   if (!app) {
     new Vue({
       router,

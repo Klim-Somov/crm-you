@@ -76,7 +76,7 @@ setTimeout(() => {
     this.interval = setInterval(() => {
       this.date = new Date();
     }, 1000);
-    this.dropdown = M.Dropdown.init(this.$refs.dropdown, {});
+    this.dropdown = M.Dropdown?.init(this.$refs.dropdown, {});
   },
   beforeDesrtoy() {
     clearInterval(this.interval);
