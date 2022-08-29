@@ -1,28 +1,75 @@
 <template>
-         <div class="app-page">
-
-
-<div>
-  <div class="page-title">
-    <h3>Планирование</h3>
-    <h4>12 212</h4>
-  </div>
-
-  <section>
+  <div class="app-page">
     <div>
-      <p>
-        <strong>Девушка:</strong>
-        12 122 из 14 0000
-      </p>
-      <div class="progress" >
-        <div
-            class="determinate green"
-            style="width:40%"
-        ></div>
+      <div class="page-title">
+        <h3>Планирование</h3>
+        <h4>{{ getBill }} руб.</h4>
       </div>
-    </div>
-  </section>
-</div>
+      <LoaderVue v-if="loading" />
 
-</div>
+      <p v-else-if="!categories.length" class="center">
+        категорий пока нет.
+        <router-link to="/categories">добавить</router-link>
+      </p>
+      <section v-else>
+        <div v-for="cat of categories" :key="cat.id">
+          <p>
+            <strong>{{ cat.title }}:</strong>
+            {{ cat.spend | currency }} из {{ cat.limit | currency }}
+          </p>
+          <div class="progress">
+            <div
+              class="determinate"
+              :class="[cat.progressColor]"
+              :style="{ width: cat.progresPercent + '%' }"
+            ></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
 </template>
+<script>
+import LoaderVue from "@/components/Loader-vue.vue";
+
+export default {
+  name: "planing-vue",
+  data: () => ({
+    loading: true,
+    categories: [],
+    records: [],
+  }),
+  computed: {
+    getBill() {
+      return this.$store.getters.info.bill;
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch("fetchRecords");
+    await this.$store.dispatch("fetchCategories");
+    this.records = this.$store.getters.records;
+    this.categories = this.$store.getters.categories.map((cat) => {
+      const spend = this.records
+        .filter((r) => r.newRecord.categoryId === cat.id)
+        .filter((r) => r.newRecord.type === "outcome")
+        .reduce((total, record) => {
+          return (total += record.newRecord.amount);
+        }, 0);
+      const percent = (100 * spend) / cat.limit;
+      const progresPercent = percent > 100 ? 100 : percent;
+      const progressColor =
+        percent < 60 ? "green" : percent < 100 ? "yellow" : "red";
+
+      return {
+        ...cat,
+        progresPercent,
+        progressColor,
+        spend,
+      };
+    });
+
+    this.loading = false;
+  },
+  components: { LoaderVue },
+};
+</script>

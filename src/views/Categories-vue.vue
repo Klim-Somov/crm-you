@@ -32,7 +32,7 @@ export default {
   async mounted() {
     await this.$store.dispatch("fetchCategories");
     this.categories = this.$store.getters.categories;
-    console.log(this.categories);
+
     this.loader = false;
   },
   methods: {

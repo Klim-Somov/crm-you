@@ -8,15 +8,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import {
-  ref,
-  set,
-  onValue,
-  push,
-  get,
-  child,
-  update,
-} from "firebase/database";
+import { ref, set, onValue, push, get, child, update } from "firebase/database";
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -25,10 +17,12 @@ export default new Vuex.Store({
     error: null,
     info: {},
     categories: [],
+    records: []
   },
   getters: {
     info: (s) => s.info,
     categories: (s) => s.categories,
+    records: (s) => s.records,
   },
   mutations: {
     setInfo(state, info) {
@@ -36,6 +30,9 @@ export default new Vuex.Store({
     },
     setCats(state, snap) {
       state.categories = snap;
+    },
+    setRecords(state, snap) {
+      state.records = snap;
     },
     clearInfo(state) {
       state.info = {};
@@ -46,23 +43,41 @@ export default new Vuex.Store({
   },
 
   actions: {
-    async updateInfo({dispatch, commit, getters}, bill) {
+    async fetchRecords({ dispatch, commit }) {
+      try {
+        const uid = await dispatch("getUserid");
+        const dbRef = ref(database);
+        await get(child(dbRef, `/users/${uid}/records`)).then((snapshot) => {
+          const records = snapshot.val() || {};
+          const snap = Object.keys(records).map((key) => ({
+            ...records[key],
+            id: key,
+          }));
+          commit("setRecords", snap);
+        });
+      } catch (error) {
+        commit("setError", error);
+      }
+    },
+    async updateInfo({ dispatch, commit, getters }, bill) {
       try {
         const uid = await dispatch("getUserid");
         // const updateData = {...getters.info, ...toUpdate};
-        await update(ref(database, `/users/${uid}/info`),  bill );
+        await update(ref(database, `/users/${uid}/info`), bill);
         // commit('setInfo', updateData);
       } catch (error) {
         commit("setError", e);
         throw e;
       }
     },
-    async createRecord({ dispatch, commit }, newRecord) {
+    async createRecord({ dispatch }, newRecord) {
       try {
         const uid = await dispatch("getUserid");
-       return await push(ref(database, `/users/${uid}/records`), { newRecord }); 
+        return await push(ref(database, `/users/${uid}/records`), {
+          newRecord,
+        });
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     },
     async updateCategory({ dispatch, commit }, { title, limit, id }) {
@@ -86,8 +101,7 @@ export default new Vuex.Store({
       // });
       const dbRef = ref(database);
       try {
-         await get(child(dbRef, `/users/${uid}/categories`))
-         .then((snapshot) => {
+        await get(child(dbRef, `/users/${uid}/categories`)).then((snapshot) => {
           const cats = snapshot.val();
           const snap = Object.keys(cats).map((key) => ({
             ...cats[key],
@@ -123,10 +137,8 @@ export default new Vuex.Store({
       const res = fetch(
         `https://api.exchangerate.host/latest?&symbols=USD,EUR,RUB`
         // `http://data.fixer.io/api/latest?access_key=${key}&symbols=USD,EUR,RUB`
-      
       );
       return await (await res).json();
-      
     },
     async fetchInfo({ dispatch, commit }) {
       try {
