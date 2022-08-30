@@ -12,9 +12,9 @@
         </div>
       </main>
       <div class="fixed-action-btn">
-        <a class="btn-floating btn-large teal darken-1" href="/new-record">
+        <router-link class="btn-floating btn-large teal darken-1" to="/New-record" v-tooltip="'Создать новую запись'">
           <i class="large material-icons">add</i>
-        </a>
+        </router-link>
       </div>
     </div>
   </div>

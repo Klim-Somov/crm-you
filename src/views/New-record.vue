@@ -136,7 +136,7 @@ export default {
               ? this.info.bill + this.amount
               : this.info.bill - this.amount;
           // и после задиспатчу его в БД
-          await this.$store.dispatch("updateInfo", {bill} );
+          await this.$store.dispatch("updateInfo", { bill });
           this.$message("Счет обновлен. Запись создана");
           this.description = "";
           this.amount = 1;

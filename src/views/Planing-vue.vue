@@ -17,7 +17,7 @@
             <strong>{{ cat.title }}:</strong>
             {{ cat.spend | currency }} из {{ cat.limit | currency }}
           </p>
-          <div class="progress" v-tooltip="'Test'">
+          <div class="progress" v-tooltip="cat.tooltip">
             <div
               class="determinate"
               :class="[cat.progressColor]"
@@ -45,6 +45,7 @@ export default {
     },
   },
   async mounted() {
+  
     await this.$store.dispatch("fetchRecords");
     await this.$store.dispatch("fetchCategories");
     this.records = this.$store.getters.records;
@@ -59,12 +60,16 @@ export default {
       const progresPercent = percent > 100 ? 100 : percent;
       const progressColor =
         percent < 60 ? "green" : percent < 100 ? "yellow" : "red";
+        
+        const tooltipValue = cat.limit - spend
+        const tooltip =`${tooltipValue < 0 ? "превышено на" : "осталось"} ${Math.abs(tooltipValue)}`
 
       return {
         ...cat,
         progresPercent,
         progressColor,
         spend,
+        tooltip
       };
     });
 
