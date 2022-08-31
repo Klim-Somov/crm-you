@@ -27,7 +27,7 @@ let auth = getAuth();
 let app;
 
 onAuthStateChanged(auth, () => {
-  // console.log(user)
+
   if (!app) {
     new Vue({
       router,
