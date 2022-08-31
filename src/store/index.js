@@ -17,7 +17,7 @@ export default new Vuex.Store({
     error: null,
     info: {},
     categories: [],
-    records: []
+    records: [],
   },
   getters: {
     info: (s) => s.info,
@@ -43,6 +43,8 @@ export default new Vuex.Store({
   },
 
   actions: {
+   
+    
     async fetchRecords({ dispatch, commit }) {
       try {
         const uid = await dispatch("getUserid");

@@ -49,6 +49,7 @@ export default {
     await this.$store.dispatch("fetchRecords");
     await this.$store.dispatch("fetchCategories");
     this.records = this.$store.getters.records;
+
     this.categories = this.$store.getters.categories.map((cat) => {
       const spend = this.records
         .filter((r) => r.newRecord.categoryId === cat.id)
@@ -72,7 +73,6 @@ export default {
         tooltip
       };
     });
-
     this.loading = false;
   },
   components: { LoaderVue },

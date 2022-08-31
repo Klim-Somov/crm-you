@@ -103,6 +103,7 @@ export default {
       type: "outcome",
       amount: 100,
       description: "",
+  
     };
   },
   computed: {
@@ -127,6 +128,7 @@ export default {
             amount: this.amount,
             description: this.description,
             type: this.type,
+            date: new Date().toJSON(),
           });
           // После добавления записи в Firebase обновлю состояние счета
           // Создам переменную и в нее сложу состояние счета после добавления записи

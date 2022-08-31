@@ -105,7 +105,7 @@ export default {
   input {
     color: white;
   }
-  // background: url('./img/cool-background (1).png') 0 0 ;
+
   color: rgb(238, 217, 217);
 }
 
